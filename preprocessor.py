@@ -1,6 +1,8 @@
 from pandas import DataFrame
 import string
 import nltk
+from bs4 import BeautifulSoup
+from spellchecker import SpellChecker
 
 class Preprocessor:
     def __init__(self, df: DataFrame):
@@ -22,6 +24,8 @@ class Preprocessor:
         self.lowercase()
         self.remove_punctuations()
         self.remove_stopwords()
+        self.remove_html()
+        # self.correction_words()
         
     def lowercase(self):
         for column in self.important_columns:
@@ -46,3 +50,26 @@ class Preprocessor:
                 lambda text: " ".join([word for word in str(text).split() if word not in stopwords])
             )
             
+    def remove_html(self):
+        self.data_frame['academic_req'] = self.data_frame['academic_req'].apply(
+            lambda text: BeautifulSoup(text, 'lxml').text
+        )
+            
+    # def _correct_spellings(self, text: str):
+    #     spell = SpellChecker()
+    #     corrected_text = []
+    #     misspelled_words = spell.unknown(text.split())
+        
+    #     for word in text.split():
+    #         if word in misspelled_words and spell.correction(word) is not None:
+    #             corrected_text.append(spell.correction(word))
+    #         else:
+    #             corrected_text.append(word)
+                
+    #     return " ".join(corrected_text)
+    
+    # def correction_words(self):
+    #     for column in self.important_columns:
+    #         self.data_frame[column] = self.data_frame[column].apply(
+    #             lambda text: self._correct_spellings(text)
+    #         )

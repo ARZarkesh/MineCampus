@@ -4,6 +4,8 @@ import nltk
 from bs4 import BeautifulSoup
 from spellchecker import SpellChecker
 import numpy as np
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud, STOPWORDS
 
 class Preprocessor:
     def __init__(self, df: DataFrame):
@@ -84,11 +86,25 @@ class Preprocessor:
                 for text in self.data_frame.iloc[row][column].split():
                     words.append(text)
 
-            # self.data_frame.loc[row,'words'] = " ".join(set(words)) 
-            sentences.append(" ".join(set(words))) 
+            sentences.append(" ".join(set(words)))
+            # self.generate_wordcloud(" ".join(set(words))) 
             
     
         self.data_frame['extracted_keywords'] = sentences         
 
+    def generate_wordcloud(self, words):
+        wordcloud = WordCloud(
+                width=800, 
+                height=800, 
+                background_color='white', 
+                stopwords=set(STOPWORDS), 
+                min_font_size=10
+            ).generate(words)
             
+        plt.figure(figsize = (8, 8), facecolor = None)
+        plt.imshow(wordcloud)
+        plt.axis("off")
+        plt.tight_layout(pad = 0)
+        
+        plt.show()
         

@@ -3,6 +3,7 @@ import string
 import nltk
 from bs4 import BeautifulSoup
 from spellchecker import SpellChecker
+import numpy as np
 
 class Preprocessor:
     def __init__(self, df: DataFrame):
@@ -26,6 +27,7 @@ class Preprocessor:
         self.remove_stopwords()
         self.remove_html()
         # self.correction_words()
+        self.collect_words()
         
     def lowercase(self):
         for column in self.important_columns:
@@ -73,3 +75,20 @@ class Preprocessor:
     #         self.data_frame[column] = self.data_frame[column].apply(
     #             lambda text: self._correct_spellings(text)
     #         )
+    
+    def collect_words(self):
+        sentences = []
+        for row in range(self.data_frame.shape[0]):
+            words = []
+            for column in self.important_columns:
+                for text in self.data_frame.iloc[row][column].split():
+                    words.append(text)
+
+            # self.data_frame.loc[row,'words'] = " ".join(set(words)) 
+            sentences.append(" ".join(set(words))) 
+            
+    
+        self.data_frame['extracted_keywords'] = sentences         
+
+            
+        

@@ -5,4 +5,4 @@ df = pd.read_csv('./universities.csv')
 
 preprocessor = Preprocessor(df)
 print("*****************************************\n")
-print(df.head())
+print(df['extracted_keywords'].tolist())

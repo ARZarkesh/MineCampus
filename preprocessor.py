@@ -110,4 +110,10 @@ class Preprocessor:
         
     def get_specific_column(self, column: str):
         return self.data_frame[column].tolist()
-        
+    
+    def get_extracted_keywords(self, university_name: str) -> str:
+        university_name = university_name.lower()
+        university_data = self.data_frame[self.data_frame['university_name'].str.lower() == university_name]
+        if university_data.empty:
+            return f"No data found for {university_name}"
+        return university_data['extracted_keywords'].iloc[0]

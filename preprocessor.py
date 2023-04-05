@@ -108,3 +108,6 @@ class Preprocessor:
         
         plt.show()
         
+    def get_specific_column(self, column: str):
+        return self.data_frame[column].tolist()
+        

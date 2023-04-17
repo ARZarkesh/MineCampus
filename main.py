@@ -20,7 +20,20 @@ user_input_gpa = input("What is your GPA: ")
 user_input_source_university = input("What is your current university name? ")
 user_input_source_major = input("What is your current major? ")
 
-extracted_keywords = preprocessor.get_extracted_keywords(user_input_destination_university)
+extracted_keywords = preprocessor.get_extracted_keywords(user_input_destination_university).split(" ")
+
+user_keywords = [
+  f'My Fullname: {user_input_fullname}',
+  f'Destination University: {user_input_destination_university}',
+  f'Destination Major: {user_input_destination_major}',
+  f'My GPA: {user_input_gpa}',
+  f'Current University: {user_input_source_university}',
+  f'Current Major: {user_input_source_major}',
+]
+
+all_keywords = extracted_keywords + user_keywords
+
+print(all_keywords)
 
 chromedriver_path = ".//chromedriver.exe"
 chrome_profile_path = "C:\\Users\\Amirreza Zarkesh\\AppData\\Local\\Google\\Chrome\\User Data"
@@ -31,12 +44,11 @@ options.page_load_strategy = 'normal'
 page = webdriver.Chrome(executable_path=chromedriver_path, chrome_options=options)
 
 def dummy_send_keys(element, word):    
-  element.send_keys(word)
-  # random_numbers_list = [0.1, 0.2]
-  # for c in word:
-  #   element.send_keys(c)
-  #   random_number = random.choice(random_numbers_list)
-  #   sleep(random_number)
+  random_numbers_list = [0.1, 0.2]
+  for c in word:
+    element.send_keys(c)
+    random_number = random.choice(random_numbers_list)
+    sleep(random_number)
 
 def find_element_by_xpath(xpath):
   return WebDriverWait(page, 50).until(EC.presence_of_element_located((By.XPATH, xpath)))
@@ -55,7 +67,7 @@ try:
   dummy_send_keys(essayAuthor, user_input_fullname)
 
   keywordsInput = find_element_by_xpath('/html/body/div[1]/div/div[1]/div/div/div[1]/div[4]/div')
-  for keyword in extracted_keywords.split(" "):
+  for keyword in all_keywords:
     dummy_send_keys(keywordsInput, keyword)
     dummy_send_keys(keywordsInput, Keys.ENTER)
 

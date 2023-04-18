@@ -20,7 +20,7 @@ user_input_gpa = input("What is your GPA: ")
 user_input_source_university = input("What is your current university name? ")
 user_input_source_major = input("What is your current major? ")
 
-extracted_keywords = preprocessor.get_extracted_keywords(user_input_destination_university).split(" ")
+extracted_keywords = preprocessor.get_extracted_keywords(user_input_destination_university).split(",")
 
 user_keywords = [
   f'My Fullname: {user_input_fullname}',

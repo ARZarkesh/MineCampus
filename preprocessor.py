@@ -86,7 +86,7 @@ class Preprocessor:
                 for text in self.data_frame.iloc[row][column].split():
                     words.append(text)
 
-            sentences.append(" ".join(set(words)))
+            sentences.append(",".join(set(words)))
             # self.generate_wordcloud(" ".join(set(words))) 
             
     
